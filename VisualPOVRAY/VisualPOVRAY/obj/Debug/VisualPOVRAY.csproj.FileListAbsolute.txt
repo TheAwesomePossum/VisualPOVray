@@ -1,0 +1,1 @@
+S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\bin\Debug\VisualPOVRAY.exe.config
