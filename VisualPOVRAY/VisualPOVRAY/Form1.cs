@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace VisualPOVray
+namespace VisualPOVRAY
 {
     public partial class Form1 : Form
     {
@@ -18,16 +18,19 @@ namespace VisualPOVray
         Frame f;
         Sphere s;
         Light l;
-        int frame = 0;
 
         public Form1()
         {
             InitializeComponent();
             cam = new Camera(new Point3(0, 2, -3), new Point3(0, 1, 2));
             f = new Frame(cam, "Cyan");
-            s = new Sphere(new Point3(0, 1, 2), 2, "Yellow");
+            f.addInclude("colors.inc");
+            for (int i = 0; i < 10; i++)
+            {
+                s = new Sphere(new Point3(i, 1, 2), 2);
+                f.add(s);
+            }
             l = new Light(new Point3(2, 4, -3));
-            f.add(s);
             f.add(l);
         }
 

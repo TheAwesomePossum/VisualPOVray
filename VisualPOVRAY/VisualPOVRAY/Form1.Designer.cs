@@ -1,4 +1,4 @@
-﻿namespace VisualPOVray
+﻿namespace VisualPOVRAY
 {
     partial class Form1
     {

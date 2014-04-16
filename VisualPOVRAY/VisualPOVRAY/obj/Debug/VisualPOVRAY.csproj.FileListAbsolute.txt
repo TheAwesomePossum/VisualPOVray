@@ -1,1 +1,9 @@
 S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\bin\Debug\VisualPOVRAY.exe.config
+S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.csprojResolveAssemblyReference.cache
+S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVray.Form1.resources
+S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.Properties.Resources.resources
+S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.csproj.GenerateResource.Cache
+S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\bin\Debug\VisualPOVRAY.exe
+S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\bin\Debug\VisualPOVRAY.pdb
+S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.exe
+S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.pdb

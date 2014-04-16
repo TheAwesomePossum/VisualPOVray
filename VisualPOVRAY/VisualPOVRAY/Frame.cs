@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace VisualPOVray
+namespace VisualPOVRAY
 {
     class Frame
     {
 
         private List<PovObj> world;
+        private List<String> includes = new List<string>();
         private int frameCount;
         private string color;
 
@@ -28,6 +29,11 @@ namespace VisualPOVray
             this.color = color;
             this.world = new List<PovObj>();
             this.world.Add(cam);
+        }
+
+        public void addInclude(String include)
+        {
+            this.includes.Add(include);
         }
 
         public void add(PovObj o)
@@ -49,7 +55,10 @@ namespace VisualPOVray
         {
             this.frameCount++;
             StreamWriter write = new StreamWriter("frame" + this.frameCount + ".pov");
-            write.WriteLine("#include \"colors.inc\"");
+            foreach (String s in this.includes)
+            {
+                write.WriteLine("#include \"" + s + "\"");
+            }
             foreach (PovObj o in world)
             {
                 foreach (string line in o.render())
@@ -61,7 +70,7 @@ namespace VisualPOVray
             string strCmdText;
             strCmdText = "/EXIT /RENDER \"frame" + this.frameCount + ".pov" + "\"";
             Console.WriteLine(strCmdText);
-            System.Diagnostics.Process.Start("C:\\Program Files\\POV-Ray\\v3.7\\bin\\pvengine32-sse2.exe", strCmdText);
+            //System.Diagnostics.Process.Start("C:\\Program Files\\POV-Ray\\v3.7\\bin\\pvengine32-sse2.exe", strCmdText);
         }
     }
 }

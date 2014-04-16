@@ -4,26 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisualPOVray
+namespace VisualPOVRAY
 {
     class Sphere : PovObj
     {
         public Point3 loc;
         float radius;
-        string color;
+        PovTexture texture;
 
         public Sphere(Point3 loc, float radius)
         {
             this.loc = loc;
             this.radius = radius;
-            this.color = "Red";
+            this.texture = new POVColor("Red");
         }
 
-        public Sphere(Point3 loc, float radius, string color)
+        public Sphere(Point3 loc, float radius, PovTexture texture)
         {
             this.loc = loc;
             this.radius = radius;
-            this.color = color;
+            this.texture = texture;
         }
 
         public void move(Point3 loc)
@@ -36,9 +36,7 @@ namespace VisualPOVray
             List<string> l = new List<string>();
             l.Add("sphere {");
             l.Add("    " + this.loc.render()[0] + ", " + this.radius);
-            l.Add("    texture {");
-            l.Add("        pigment { color " + this.color + " }");
-            l.Add("    }");
+            l.AddRange(this.texture.render());
             l.Add("}");
             return l;
         }
