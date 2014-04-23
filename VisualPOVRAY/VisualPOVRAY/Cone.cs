@@ -6,18 +6,22 @@ using System.Threading.Tasks;
 
 namespace VisualPOVRAY
 {
-    class Sphere : PovObj
+    class Cone : PovObj
     {
-        public Point3 loc;
-        float rad;
+        public Point3 botp;
+        public float botrad;
+        public Point3 topp;
+        public float toprad;
         public Point3 trans;
         public Point3 rot;
-        PovTexture tex;
+        public PovTexture tex;
 
-        public Sphere(Point3 location = null, float radius = 1.0f, Point3 translate = null, Point3 rotation = null, PovTexture texture = null)
+        public Cone(Point3 bottompoint = null, float bottomradius = 1.0f, Point3 toppoint = null, float topradius = 0.0f, Point3 translate = null, Point3 rotation = null, PovTexture texture = null)
         {
-            this.loc = location ?? new Point3(0,0,0);
-            this.rad = radius;
+            this.botp = bottompoint ?? new Point3(0, 0, 0);
+            this.botrad = bottomradius;
+            this.topp = toppoint ?? new Point3(0, 0, 0);
+            this.toprad = topradius;
             this.trans = translate ?? new Point3(0, 0, 0);
             this.rot = rotation ?? new Point3(0, 0, 0);
             this.tex = texture ?? new POVColor("Red");
@@ -26,8 +30,9 @@ namespace VisualPOVRAY
         public List<string> render()
         {
             List<string> l = new List<string>();
-            l.Add("sphere {");
-            l.Add("    " + this.loc.render()[0] + ", " + this.rad);
+            l.Add("cone {");
+            l.Add("    " + this.botp.render()[0] + ", " + botrad);
+            l.Add("    " + this.topp.render()[0] + ", " + toprad);
             l.AddRange(this.tex.render());
             l.Add("    rotate " + this.rot.render()[0]);
             l.Add("    translate " + this.trans.render()[0]);

@@ -14,21 +14,15 @@ namespace VisualPOVRAY
         private List<String> includes = new List<string>();
         private int frameCount;
         private string color;
+        private bool animated;
 
-        public Frame(Camera cam)
-        {
-            this.frameCount = 0;
-            this.color = "Black";
-            this.world = new List<PovObj>();
-            this.world.Add(cam);
-        }
-
-        public Frame(Camera cam, String color)
+        public Frame(Camera cam, String color = "Black", bool animated = false)
         {
             this.frameCount = 0;
             this.color = color;
             this.world = new List<PovObj>();
             this.world.Add(cam);
+            this.animated = animated;
         }
 
         public void addInclude(String include)
@@ -67,8 +61,30 @@ namespace VisualPOVRAY
                 }
             }
             write.Close();
+            if (animated)
+            {
+                write = new StreamWriter("animation.ini");
+                write.WriteLine("Antialias=Off");
+                write.WriteLine("Antialias_Threshold=0.1");
+                write.WriteLine("Antialias_Depth=2");
+                write.WriteLine("Input_File_Name=\"frame" + this.frameCount + ".pov\"");
+                write.WriteLine("Initial_Frame=1");
+                write.WriteLine("Final_Frame=10");
+                write.WriteLine("Initial_Clock=0");
+                write.WriteLine("Final_Clock=1");
+                write.WriteLine("Cyclic_Animation=on");
+                write.WriteLine("Pause_when_Done=off");
+                write.Close();
+            }
             string strCmdText;
-            strCmdText = "/EXIT /RENDER \"frame" + this.frameCount + ".pov" + "\"";
+            if (animated)
+            {
+                strCmdText = "/RENDER \"animation.ini" + "\"";
+            }
+            else
+            {
+                strCmdText = "/RENDER \"frame" + this.frameCount + ".pov" + "\"";
+            }
             Console.WriteLine(strCmdText);
             //System.Diagnostics.Process.Start("C:\\Program Files\\POV-Ray\\v3.7\\bin\\pvengine32-sse2.exe", strCmdText);
         }

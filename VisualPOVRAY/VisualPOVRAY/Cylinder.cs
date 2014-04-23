@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace VisualPOVRAY
 {
-    class Sphere : PovObj
+    class Cylinder : PovObj
     {
-        public Point3 loc;
+        public Point3 basep;
+        public Point3 topp;
         float rad;
         public Point3 trans;
         public Point3 rot;
-        PovTexture tex;
+        PovTexture tex; 
 
-        public Sphere(Point3 location = null, float radius = 1.0f, Point3 translate = null, Point3 rotation = null, PovTexture texture = null)
+        public Cylinder(Point3 basepoint = null, Point3 toppoint = null, float radius = 1.0f, Point3 translate = null, Point3 rotation = null, PovTexture texture = null)
         {
-            this.loc = location ?? new Point3(0,0,0);
+            this.basep = basepoint ?? new Point3(0, 0, 0);
+            this.topp = toppoint ?? new Point3(0, 0, 0);
             this.rad = radius;
             this.trans = translate ?? new Point3(0, 0, 0);
             this.rot = rotation ?? new Point3(0, 0, 0);
@@ -26,8 +28,8 @@ namespace VisualPOVRAY
         public List<string> render()
         {
             List<string> l = new List<string>();
-            l.Add("sphere {");
-            l.Add("    " + this.loc.render()[0] + ", " + this.rad);
+            l.Add("cylinder {");
+            l.Add("    " + this.basep.render()[0] + ", " + this.topp.render()[0] + ", " + this.rad);
             l.AddRange(this.tex.render());
             l.Add("    rotate " + this.rot.render()[0]);
             l.Add("    translate " + this.trans.render()[0]);

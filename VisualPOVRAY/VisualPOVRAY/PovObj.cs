@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VisualPOVRAY
 {
-    interface PovObj
+    public interface PovObj
     {
         List<string> render();
     }

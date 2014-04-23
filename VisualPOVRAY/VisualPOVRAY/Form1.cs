@@ -25,13 +25,12 @@ namespace VisualPOVRAY
             cam = new Camera(new Point3(0, 2, -3), new Point3(0, 1, 2));
             f = new Frame(cam, "Cyan");
             f.addInclude("colors.inc");
-            for (int i = 0; i < 10; i++)
-            {
-                s = new Sphere(new Point3(i, 1, 2), 2);
-                f.add(s);
-            }
             l = new Light(new Point3(2, 4, -3));
             f.add(l);
+
+            f.add(new Sphere(rotation: new Point3(9,9,9)));
+            f.add(new Torus(translate: new Point3(6,3,9)));
+            f.add(new Plane());
         }
 
         private void renderBox_Paint(object sender, PaintEventArgs e)
