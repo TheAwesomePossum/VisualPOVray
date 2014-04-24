@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VisualPOVRAY
 {
-    class Point3 : PovObj
+    public class Point3 : PovObj
     {
         public int x, y, z;
 

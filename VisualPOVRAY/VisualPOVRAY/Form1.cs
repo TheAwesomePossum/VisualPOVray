@@ -25,7 +25,7 @@ namespace VisualPOVRAY
             cam = new Camera(new Point3(0, 2, -3), new Point3(0, 1, 2));
             f = new Frame(cam, "Cyan");
             f.addInclude("colors.inc");
-            l = new Light(new Point3(2, 4, -3));
+            l = Light.cylindricalLight(new Point3(2, 4, -3));
             f.add(l);
 
             f.add(new Sphere(rotation: new Point3(9,9,9)));
