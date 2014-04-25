@@ -9,18 +9,20 @@ namespace VisualPOVRAY
     class Sphere : PovObj
     {
         public Point3 loc;
-        float rad;
+        Signal<float> rad;
         public Point3 trans;
         public Point3 rot;
         PovTexture tex;
+        bool reactive;
 
-        public Sphere(Point3 location = null, float radius = 1.0f, Point3 translate = null, Point3 rotation = null, PovTexture texture = null)
+        public Sphere(Point3 location = null, float radius = 1.0f, Signal<float> rrad = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
         {
-            this.loc = location ?? new Point3(0,0,0);
-            this.rad = radius;
-            this.trans = translate ?? new Point3(0, 0, 0);
-            this.rot = rotation ?? new Point3(0, 0, 0);
+            this.reactive = reactive;
+            this.loc = location ?? new Point3(0, 0, 0, reactive: reactive);
+            this.trans = translate ?? new Point3(0, 0, 0, reactive: reactive);
+            this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
             this.tex = texture ?? new POVColor("Red");
+            this.rad = rrad ?? new Lift0f(radius);
         }
 
         public List<string> render()
@@ -40,5 +42,16 @@ namespace VisualPOVRAY
             this.trans = transform;
         }
 
+        public void update(float time)
+        {
+            if (reactive)
+            {
+                this.loc.update(time);
+                this.trans.update(time);
+                this.rot.update(time);
+                this.rad.now(time);
+            }
+
+        }
     }
 }

@@ -35,6 +35,12 @@ namespace VisualPOVRAY
             return l;
             
         }
+
+
+        public void update(float time)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

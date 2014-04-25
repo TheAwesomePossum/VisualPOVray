@@ -6,49 +6,44 @@ using System.Threading.Tasks;
 
 namespace VisualPOVRAY
 {
-    public class Point3 : PovObj
+    public class Point2 : PovObj
     {
-        private Signal<float> xs, ys, zs;
-        public float x, y, z;
+        private Signal<float> xs, ys;
+        public float x, y;
         public bool reactive;
 
-        public Point3(Signal<float> xs, Signal<float> ys, Signal<float> zs)
+        public Point2(Signal<float> xs, Signal<float> ys)
         {
             this.reactive = true;
             this.xs = xs;
-            this.ys = ys;
-            this.zs = zs;
+            this.ys = ys;           
             this.x = xs.now(0);
-            this.y = ys.now(0);
-            this.z = zs.now(0);
+            this.y = ys.now(0);            
         }
 
-        public Point3(float x, float y, float z, bool reactive = false)
+        public Point2(float x, float y, bool reactive = false)
         {
             this.reactive = reactive;
             this.x = x;
-            this.y = y;
-            this.z = z;
+            this.y = y;            
             if (reactive)
             {
                 this.xs = new Lift0f(x);
-                this.ys = new Lift0f(y);
-                this.zs = new Lift0f(z);
+                this.ys = new Lift0f(y);                
             }
         }
 
         public List<string> render()
         {
             List<string> l = new List<string>();
-            l.Add("<" + this.x + ", " + this.y + ", " + this.z + ">");
+            l.Add("<" + this.x + ", " + this.y + ">");
             return l;
         }
     
         public void move(Point3 loc)
         {
             this.x = loc.x;
-            this.y = loc.y;
-            this.z = loc.z;
+            this.y = loc.y;            
         }
 
         public void update(float currentTime)
@@ -57,7 +52,6 @@ namespace VisualPOVRAY
             {
                 x = xs.now(currentTime);
                 y = ys.now(currentTime);
-                z = zs.now(currentTime);
             }
         }
     }

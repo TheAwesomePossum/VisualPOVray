@@ -11,6 +11,7 @@ namespace VisualPOVRAY
     {
 
         private List<PovObj> world;
+        private List<Event> events;
         private List<String> includes = new List<string>();
         private int frameCount;
         private string color;
@@ -21,6 +22,7 @@ namespace VisualPOVRAY
             this.frameCount = 0;
             this.color = color;
             this.world = new List<PovObj>();
+            this.events = new List<Event>();
             this.world.Add(cam);
             this.animated = animated;
         }
@@ -35,6 +37,11 @@ namespace VisualPOVRAY
             world.Add(o);
         }
 
+        public void addEvent(Event e)
+        {
+            events.Add(e);
+        }
+
         public int getFrame()
         {
             return this.frameCount;
@@ -43,6 +50,34 @@ namespace VisualPOVRAY
         public void remove(PovObj o)
         {
             world.Remove(o);
+        }
+
+        public void heartbeat(float time)
+        {
+            foreach (PovObj obj in world)
+            {
+                obj.update(time);
+            }
+            List<Event> temp = new List<Event>();
+            foreach (Event e in events)
+            {
+                if(!e.pop(time))
+                {
+                    temp.Add(e);
+                }
+            }
+            this.events = temp;
+            this.render();
+        }
+
+        public void start(int frameRate, double time)
+        {
+            float increment = 1.0f/frameRate;
+
+            for (float i = increment; i < time; i+=increment )
+            {
+                heartbeat(i);
+            }
         }
 
         public void render()

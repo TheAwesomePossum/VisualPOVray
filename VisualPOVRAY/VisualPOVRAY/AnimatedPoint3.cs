@@ -37,5 +37,11 @@ namespace VisualPOVRAY
             this.y = y;
             this.z = z;
         }
+
+
+        public void update(float time)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -42,5 +42,11 @@ namespace VisualPOVRAY
             this.trans = transform;
         }
 
+
+
+        public void update(float time)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

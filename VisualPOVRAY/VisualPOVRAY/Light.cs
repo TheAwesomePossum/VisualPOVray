@@ -59,6 +59,11 @@ namespace VisualPOVRAY
             return l;
         }
 
+        public override string ToString()
+        {
+            return this.type;
+        }
+
         private class AreaLight : Light
         {
             public int width, height, widthLight, heightLight;
@@ -98,6 +103,11 @@ namespace VisualPOVRAY
         public static Light areaLight(Point3 loc, int width, int height, int widthLight, int heightLight, Point3 color = null, float fadeDist = 1.0f, float fadePower = 1.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
         {
             return new AreaLight(loc, color, width, height, widthLight, heightLight, fadeDist, fadePower, shadows, interaction, atmosphere);
+        }
+
+        public void update(float time)
+        {
+            
         }
     }
 }

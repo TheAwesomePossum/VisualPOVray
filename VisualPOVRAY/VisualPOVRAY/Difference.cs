@@ -9,8 +9,11 @@ namespace VisualPOVRAY
     public class Difference:PovObj
     {
          public PovObj o1, o2;
-        public Difference(PovObj o1, PovObj o2)
+         bool reactive;
+
+         public Difference(PovObj o1, PovObj o2, bool reactive = false)
         {
+            this.reactive = reactive;
             this.o1 = o1;
             this.o2 = o2;   
         }
@@ -23,6 +26,16 @@ namespace VisualPOVRAY
             l.AddRange(this.o2.render());
             l.Add("}");
             return l;
+        }
+
+
+        public void update(float time)
+        {
+            if (reactive)
+            {
+                o1.update(time);
+                o2.update(time);
+            }
         }
     }
 }

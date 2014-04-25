@@ -14,5 +14,11 @@ namespace VisualPOVRAY
             s.Add("    texture {");
             return s;
         }
+
+
+        public void update(float time)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

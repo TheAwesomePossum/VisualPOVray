@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace VisualPOVRAY
 {
-    public interface PovObj
+    public interface Signal<T>
     {
-        List<string> render();
-        void update(float time);
+
+        T now(float currentTime);
+
     }
 }

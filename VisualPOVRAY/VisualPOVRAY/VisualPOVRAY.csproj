@@ -55,6 +55,8 @@
     <Compile Include="Cone.cs" />
     <Compile Include="Cylinder.cs" />
     <Compile Include="Difference.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="Factory.cs" />
     <Compile Include="Fog.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -68,12 +70,18 @@
     <Compile Include="JuliaFractal.cs" />
     <Compile Include="Lathe.cs" />
     <Compile Include="LeopardTexture.cs" />
+    <Compile Include="Lift0b.cs" />
+    <Compile Include="Lift0f.cs" />
+    <Compile Include="Lift0s.cs" />
+    <Compile Include="Liftb.cs" />
+    <Compile Include="Liftf.cs" />
     <Compile Include="Light.cs" />
     <Compile Include="MarbleTexture.cs" />
     <Compile Include="Merge.cs" />
     <Compile Include="Ovus.cs" />
     <Compile Include="Parametric.cs" />
     <Compile Include="Plane.cs" />
+    <Compile Include="Point2.cs" />
     <Compile Include="Point3.cs" />
     <Compile Include="POVColor.cs" />
     <Compile Include="PovObj.cs" />
@@ -81,6 +89,7 @@
     <Compile Include="Prism.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Signal.cs" />
     <Compile Include="Sor.cs" />
     <Compile Include="Sphere.cs" />
     <Compile Include="SuperEllipsoid.cs" />
