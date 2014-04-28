@@ -30,7 +30,7 @@ namespace VisualPOVRAY
          public List<string> render()
          {
              List<string> l = new List<string>();
-             l.Add("union {");
+             l.Add("difference {");
              l.AddRange(this.o1.render());
              foreach (PovObj o in o2)
              {
