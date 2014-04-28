@@ -9,17 +9,19 @@ namespace VisualPOVRAY
     class Camera : PovObj
     {
         private Point3 location, look_at;
-        private double _bumps;
-        private String _mesh;
+        private Signal<float> _bumps;
+        private Signal<String> _mesh;
+        bool reactive;
 
-        public Camera(Point3 location, Point3 look_at, double bumps = 0, String mesh = null)
+        public Camera(Point3 location = null, Point3 look_at = null, float bumps = 0.0f, Signal<float> bumpsr = null, String mesh = null, Signal<String> meshr = null, bool reactive = false)
         {
             //to add a mesh to the camera use the mesh identifier in the constructor
             //to make the image appear as if through curved glass increase the number of bumps
-            this.location = location;
-            this.look_at = look_at;
-            _bumps = bumps;
-            _mesh = mesh;
+            this.location = location ?? new Point3(0, 2, -3, reactive: reactive);
+            this.look_at = look_at ?? new Point3(0, 1, 2, reactive: reactive);
+            _bumps = bumpsr ?? new Lift0f(bumps);
+            _mesh = meshr ?? new Lift0s(mesh);
+            this.reactive = reactive;
         }
 
         public void changeView(Point3 look_at)
@@ -36,7 +38,7 @@ namespace VisualPOVRAY
         {
             List<string> lines = new List<string>();
             lines.Add("camera {");
-            if (_mesh != null)
+            if (_mesh.ToString() != null)
             {
                 lines.Add("mesh_camera {");
                 lines.Add("1");
@@ -52,7 +54,13 @@ namespace VisualPOVRAY
 
         public void update(float time)
         {
-            
+            if (reactive)
+            {
+                this.location.update(time);
+                this.look_at.update(time);
+                this._bumps.now(time);
+                this._mesh.now(time);
+            }
         }
     }
 }

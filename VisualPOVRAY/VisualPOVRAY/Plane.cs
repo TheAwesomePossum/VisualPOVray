@@ -9,18 +9,20 @@ namespace VisualPOVRAY
     class Plane : PovObj
     {
         public Point3 n;
-        public float d;
+        public Signal<float> d;
         public Point3 trans;
         public Point3 rot;
         public PovTexture tex;
+        bool reactive;
 
-        public Plane(Point3 normal = null, float disp = -1.0f,Point3 translate = null, Point3 rotation = null, PovTexture texture = null)
+        public Plane(Point3 normal = null, float disp = -1.0f, Signal<float> dispr = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
         {
-            this.n = normal ?? new Point3(0, 1, 0);
-            this.d = disp;
-            this.trans = translate ?? new Point3(0, 0, 0);
-            this.rot = rotation ?? new Point3(0, 0, 0);
+            this.n = normal ?? new Point3(0, 1, 0, reactive: reactive);
+            this.d = dispr ?? new Lift0f(disp);
+            this.trans = translate ?? new Point3(0, 0, 0, reactive: reactive);
+            this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
             this.tex = texture ?? new POVColor("Red");
+            this.reactive = reactive;
         }
 
         public List<string> render()
@@ -40,11 +42,15 @@ namespace VisualPOVRAY
             this.trans = transform;
         }
 
-
-
         public void update(float time)
         {
-            throw new NotImplementedException();
+            if (reactive)
+            {
+                this.d.now(time);
+                this.n.update(time);
+                this.trans.update(time);
+                this.rot.update(time);
+            }
         }
     }
 }

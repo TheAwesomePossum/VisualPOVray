@@ -64,6 +64,16 @@ namespace VisualPOVRAY
             return new Sphere(location, radius, rrad, translate, rotation, texture, reactive);
         }
 
+        public static Torus torus(float outerrad = 1.0f, Signal<float> outerradr = null, float innerrad = 1.0f, Signal<float> innerradr = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
+        {
+            return new Torus(outerrad, outerradr, innerrad, innerradr, translate, rotation, texture, reactive);
+        }
+
+        public static Plane plane(Point3 normal = null, float disp = -1.0f, Signal<float> dispr = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
+        {
+            return new Plane(normal, disp, dispr, translate, rotation, texture, reactive);
+        }
+
         public static Box box(Point3 lowerleftcorner = null, Point3 upperrightcorner = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
         {
             return new Box(lowerleftcorner, upperrightcorner, translate, rotation, texture, reactive);

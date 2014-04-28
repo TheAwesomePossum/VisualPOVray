@@ -8,19 +8,21 @@ namespace VisualPOVRAY
 {
     class Torus : PovObj
     {
-        public float outerrad;
-        public float innerrad;
+        public Signal<float> outerrad;
+        public Signal<float> innerrad;
         public Point3 trans;
         public Point3 rot;
         public PovTexture tex;
+        bool reactive;
 
-        public Torus(float outerrad = 1.0f, float innerrad = 0.5f, Point3 translate = null, Point3 rotation = null, PovTexture texture = null)
+        public Torus(float outerrad = 1.0f, Signal<float> outerradr = null, float innerrad = 1.0f, Signal<float> innerradr = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
         {
-            this.outerrad = outerrad;
-            this.innerrad = innerrad;
-            this.trans = translate ?? new Point3(0, 0, 0);
-            this.rot = rotation ?? new Point3(0, 0, 0);
+            this.outerrad = outerradr ?? new Lift0f(outerrad);
+            this.innerrad = innerradr ?? new Lift0f(innerrad);
+            this.trans = translate ?? new Point3(0, 0, 0, reactive: reactive);
+            this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
             this.tex = texture ?? new POVColor("Red");
+            this.reactive = reactive;
         }
 
         public List<string> render()
@@ -40,11 +42,15 @@ namespace VisualPOVRAY
             this.trans = transform;
         }
 
-
-
         public void update(float time)
         {
-            throw new NotImplementedException();
+            if (reactive)
+            {
+                this.outerrad.now(time);
+                this.innerrad.now(time);
+                this.trans.update(time);
+                this.rot.update(time);
+            }
         }
     }
 }
