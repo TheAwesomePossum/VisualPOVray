@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,26 +8,37 @@ namespace VisualPOVRAY
 {
     public class Intersection:PovObj
     {
-        public PovObj o1, o2;
+        public PovObj o1;
+        public PovObj[] o2;
         bool reactive;
+
+        public Intersection(PovObj o1, PovObj[] o2, bool reactive = false)
+        {
+            this.reactive = reactive;
+            this.o1 = o1;
+            this.o2 = o2;
+        }
 
         public Intersection(PovObj o1, PovObj o2, bool reactive = false)
         {
             this.reactive = reactive;
             this.o1 = o1;
-            this.o2 = o2;   
+            this.o2 = new PovObj[1];
+            this.o2[0] = o2;
         }
 
         public List<string> render()
         {
             List<string> l = new List<string>();
-            l.Add("intersection {");
+            l.Add("union {");
             l.AddRange(this.o1.render());
-            l.AddRange(this.o2.render());
+            foreach (PovObj o in o2)
+            {
+                l.AddRange(o.render());
+            }
             l.Add("}");
             return l;
         }
-
 
 
         public void update(float time)
@@ -35,7 +46,10 @@ namespace VisualPOVRAY
             if (reactive)
             {
                 o1.update(time);
-                o2.update(time);
+                foreach (PovObj o in o2)
+                {
+                    o.update(time);
+                }
             }
         }
     }
