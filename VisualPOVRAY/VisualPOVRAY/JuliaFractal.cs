@@ -15,15 +15,17 @@ namespace VisualPOVRAY
         String algebra, function;
         int precision, iterations;
         bool reactive;
+        String finish;
         public JuliaFractal(String algebra, String function, int precision, int iterations,
             Point3 location = null, float x = -0.162f, float y = 0.163f, float z = 0.560f, float k = -0.599f, 
             Signal<float> rx = null, Signal<float> ry = null, Signal<float> rz = null, Signal<float> rk = null,
-            Point3 rotation = null, PovTexture texture = null, bool reactive = false)
+            Point3 rotation = null, PovTexture texture = null, String finish = null, bool reactive = false)
         {
             this.reactive = reactive;
             this.loc = location ?? new Point3(0, 0, 0, reactive: reactive);
             this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
             this.tex = texture ?? new POVColor("Red");
+            this.finish = finish ?? "finish {phong .9 reflection .5}";
             this.x = rx ?? new Lift0f(x);
             this.y = ry ?? new Lift0f(y);
             this.z = rz ?? new Lift0f(z);
@@ -59,12 +61,13 @@ namespace VisualPOVRAY
             l.Add("precision  " + this.precision);
             l.Add("translate" + this.loc.render()[0]);
             l.AddRange(this.tex.render());
+            l.Add(finish);
             l.Add("}");
             return l;
         }
 
 
-        public void update(float currentTime)
+        public void update(int currentTime)
         {
             if (reactive)
             {

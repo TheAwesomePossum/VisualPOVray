@@ -16,10 +16,11 @@ namespace VisualPOVRAY
         bool reactive; 
         String xFunc, yFunc, zFunc;
         public String bounds;
+        String finish;
         public Parametric(String xFunc, String yFunc, String zFunc,
             Point3 location = null, float u1 = 0f, float u2 = 7f, float v1 = 0f, float v2 = 7f, Signal<float> ru1 = null,
             Signal<float> ru2 = null, Signal<float> rv1 = null, Signal<float> rv2 = null,String bounds = "{box {<-1,-1,-1>*2*pi,<1,8/3,1>*2*pi}}", 
-            Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
+            Point3 translate = null, Point3 rotation = null, PovTexture texture = null, String finish = null, bool reactive = false)
         {
             this.reactive = reactive;
             this.xFunc = xFunc;
@@ -30,6 +31,7 @@ namespace VisualPOVRAY
             this.u2 = ru2 ?? new Lift0f(u2);
             this.v1 = rv1 ?? new Lift0f(v1);
             this.v2 = rv2 ?? new Lift0f(v2);
+            this.finish = finish ?? "finish {phong .9 reflection .5}";
             this.loc = location ?? new Point3(0, 0, 0, reactive: reactive);
             this.trans = translate ?? new Point3(0, 0, 0, reactive: reactive);
             this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
@@ -51,16 +53,17 @@ namespace VisualPOVRAY
             l.Add("function {" + this.zFunc + "} ");
             l.Add("<"+u1+","+v1+">");
             l.Add("<"+u2+","+v2+">");
-            l.Add("precompute 10 x,y,z");
+            l.Add("precompute 20 x,y,z");
             l.Add("contained_by " + bounds);
             l.Add("translate" + this.loc.render()[0]);
             l.AddRange(this.tex.render());
+            l.Add(finish);
             l.Add("}");
             return l;
         }
 
 
-        public void update(float currentTime)
+        public void update(int currentTime)
         {
             if (reactive)
             {

@@ -8,13 +8,19 @@ namespace VisualPOVRAY
 {
     class Fractal : PovTexture
     {
-        //This is just a test class. It does render, it's just really hard to figure out what does what in here to provide customization.
+        String fractalType, orientation, exponent;
+        public Fractal(String fractalType = "julia", String orientation = "interior", String exponent = "1")
+        {
+            this.fractalType = fractalType;
+            this.orientation = orientation;
+            this.exponent = exponent;
+        }
         public override List<string> render()
         {
             List<String> s = new List<string>();
             s.Add("    pigment {");
-            s.Add("    julia <0.353, 0.288>, 30");
-            s.Add("    exterior 5, 1");
+            s.Add("    "+fractalType+" <0.353, 0.288>, 30");
+            s.Add("    "+orientation+" "+exponent+", 1");
             s.Add("    color_map {");
             s.Add("    [0 rgb 0]");
             s.Add("    [0.2 rgb x]");

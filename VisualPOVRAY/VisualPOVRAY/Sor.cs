@@ -14,16 +14,17 @@ namespace VisualPOVRAY
         public String points = " ";
         public int numPoints;
         public PointF[] p;
-
+        String finish = " ";
         public Sor(int numPoints, PointF[] p,
                 Point3 location = null, float radius = 1.0f, Signal<float> rrad = null,
-                Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
+                Point3 translate = null, Point3 rotation = null, PovTexture texture = null, String finish = null, bool reactive = false)
         {
             this.numPoints = numPoints;
             this.loc = location ?? new Point3(0, 0, 0, reactive: reactive);
             this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
             this.tex = texture ?? new POVColor("Green");
             this.p = p;
+            this.finish = finish ?? "finish {phong .9 reflection .5}";
             
             for (int i = 0; i < p.Length - 1; i++)
             {
@@ -45,12 +46,13 @@ namespace VisualPOVRAY
             l.Add(points);
             l.Add("translate" + this.loc.render()[0]);
             l.AddRange(this.tex.render());
+            l.Add(finish);
             l.Add("}");
             return l;
         }
 
 
-        public void update(float currentTime)
+        public void update(int currentTime)
         {
             this.loc.update(currentTime);
             this.rot.update(currentTime);
