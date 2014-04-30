@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using fn = VisualPOVRAY.Functions;
 
 namespace VisualPOVRAY
 {
@@ -49,7 +50,18 @@ namespace VisualPOVRAY
             return new Liftf(value, sigUp);
         }
 
-        public static Liftf integral(Signal<float> value, int initValue = 0)
+
+        //Lifted Functions
+        public static Liftf plus(Signal<float> value, float initalValue)
+        {
+            return new Liftf(value, plus, initalValue);
+        }
+        public static float plus(float currentTime, float currentValue, Signal<float> value)
+        {
+            return currentValue + value.now(currentTime);
+        }
+
+        public static Liftf integral(Signal<float> value, float initValue = 0f)
         {
             return new Liftf(value, integral, initValue);
         }
@@ -127,9 +139,30 @@ namespace VisualPOVRAY
         }
 
         //Events
-        public static Event event1(int time, Event.EventFunc func)
+        public static Event event1(int time, fn.EventFunc func)
         {
-            return new Event(time, func);
+            return new TimedEvent(time, func);
+        }
+
+        //Textures
+        public static LeopardTexture leopardTexture(String color1, String color2, String color3, float scale = .3f, Signal<float> rscale = null, float turbulence = .5f, Signal<float> rturbulence = null, bool reactive = false)
+        {
+            return new LeopardTexture(color1, color2, color3, scale, rscale, turbulence, rturbulence, reactive);
+        }
+
+        public static BlueSkyTexture blueSkyTexture(float turbulence = 1f, Signal<float> rturbulencee = null, bool reactive = false)
+        {
+            return new BlueSkyTexture(turbulence, rturbulencee, reactive);
+        }
+
+        public static MarbleTexture marbleTexture(String color1, String color2, float turbulence = 100f, Signal<float> rturbulence = null, float scale = 100f, Signal<float> rscale = null, Boolean reactive = false)
+        {
+            return new MarbleTexture(color1, color2, turbulence, rturbulence, scale, rscale, reactive);
+        }
+
+        public static WaveTexture waveTexture(String color1, String color2, float scale = .1f, Signal<float> rscale = null, bool reactive = false)
+        {
+            return new WaveTexture(color1, color2, scale, rscale, reactive);
         }
     }
 }

@@ -74,7 +74,7 @@ namespace VisualPOVRAY
         {
             float increment = 1.0f/frameRate;
 
-            for (float i = increment; i < time; i+=increment )
+            for (float i = 0; i < time; i+=increment )
             {
                 heartbeat(i);
             }

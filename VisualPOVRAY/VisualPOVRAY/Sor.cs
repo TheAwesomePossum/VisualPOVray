@@ -9,40 +9,27 @@ namespace VisualPOVRAY
 {
     class Sor : PovObj
     {
-        public Point3 loc;
-        PovTexture texture;
+        public Point3 loc, rot;
+        PovTexture tex;
         public String points = " ";
         public int numPoints;
         public PointF[] p;
 
-        public Sor(int numPoints, PointF[] p, Point3 loc)
+        public Sor(int numPoints, PointF[] p,
+                Point3 location = null, float radius = 1.0f, Signal<float> rrad = null,
+                Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
         {
             this.numPoints = numPoints;
-            this.loc = loc;
+            this.loc = location ?? new Point3(0, 0, 0, reactive: reactive);
+            this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
+            this.tex = texture ?? new POVColor("Green");
             this.p = p;
             
-            this.texture = new POVColor("Green");
             for (int i = 0; i < p.Length - 1; i++)
             {
                 points += "< " + p[i].X + ", " + p[i].Y + "> , ";
             }
             points += "< " + p[p.Length - 1].X + ", " + p[p.Length - 1].Y + ">";
-        }
-
-        public Sor(String spline_type, float height1, float height2, int numPoints, PointF[] p, Point3 loc, PovTexture texture)
-        {
-            this.numPoints = numPoints;
-            this.loc = loc;
-            this.p = p;
-
-            this.texture = new POVColor("Green");
-            for (int i = 0; i < p.Length - 1; i++)
-            {
-                points += "< " + p[i].X + ", " + p[i].Y + "> , ";
-            }
-            points += "< " + p[p.Length - 1].X + ", " + p[p.Length - 1].Y + ">";
-            this.texture = texture;
-           
         }
 
         public void move(Point3 loc)
@@ -56,16 +43,18 @@ namespace VisualPOVRAY
             l.Add("sor {");
             l.Add(""+this.numPoints);
             l.Add(points);
-            l.Add("   translate" + this.loc.render()[0]);
-            l.AddRange(this.texture.render());
+            l.Add("translate" + this.loc.render()[0]);
+            l.AddRange(this.tex.render());
             l.Add("}");
             return l;
         }
 
 
-        public void update(float time)
+        public void update(float currentTime)
         {
-            throw new NotImplementedException();
+            this.loc.update(currentTime);
+            this.rot.update(currentTime);
+            //this.tex.update(currentTime);        
         }
     }
 }

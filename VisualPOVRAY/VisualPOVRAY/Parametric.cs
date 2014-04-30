@@ -8,40 +8,33 @@ namespace VisualPOVRAY
 {
     class Parametric : PovObj
     {
-        public double e;
-        double n;
+        Signal<float> u1, u2, v1, v2;
         public Point3 loc;
-        PovTexture texture;
+        public Point3 trans;
+        public Point3 rot;
+        PovTexture tex;
+        bool reactive; 
         String xFunc, yFunc, zFunc;
-        float u1, u2, v1, v2;
-        //String bounds;
-        public Parametric(String xFunc, String yFunc, String zFunc, float u1,
-            float u2, float v1, float v2, Point3 loc)
+        public String bounds;
+        public Parametric(String xFunc, String yFunc, String zFunc,
+            Point3 location = null, float u1 = 0f, float u2 = 7f, float v1 = 0f, float v2 = 7f, Signal<float> ru1 = null,
+            Signal<float> ru2 = null, Signal<float> rv1 = null, Signal<float> rv2 = null,String bounds = "{box {<-1,-1,-1>*2*pi,<1,8/3,1>*2*pi}}", 
+            Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
         {
+            this.reactive = reactive;
             this.xFunc = xFunc;
             this.yFunc = yFunc;
             this.zFunc = zFunc;
-            this.u1 = u1;
-            this.u2 = u2;
-            this.v1 = v1;
-            this.v2 = v2;
-            this.loc = loc;
-            this.texture = new POVColor("Green");
-        }
-
-        public Parametric(String xFunc, String yFunc, String zFunc, float u1,
-            float u2, float v1, float v2, Point3 loc, PovTexture texture)
-        {
-            this.xFunc = xFunc;
-            this.yFunc = yFunc;
-            this.zFunc = zFunc;
-            this.u1 = u1;
-            this.u2 = u2;
-            this.v1 = v1;
-            this.v2 = v2;
-            this.loc = loc;
-            this.texture = texture;
-            this.loc = loc;
+            this.bounds = bounds;
+            this.u1 = ru1 ?? new Lift0f(u1);
+            this.u2 = ru2 ?? new Lift0f(u2);
+            this.v1 = rv1 ?? new Lift0f(v1);
+            this.v2 = rv2 ?? new Lift0f(v2);
+            this.loc = location ?? new Point3(0, 0, 0, reactive: reactive);
+            this.trans = translate ?? new Point3(0, 0, 0, reactive: reactive);
+            this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
+            this.tex = texture ?? new POVColor("Red");
+            
         }
 
         public void move(Point3 loc)
@@ -56,19 +49,29 @@ namespace VisualPOVRAY
             l.Add("function {" + this.xFunc + "} ");
             l.Add("function {" + this.yFunc + "} ");
             l.Add("function {" + this.zFunc + "} ");
-            l.Add("<"+u1+","+u2+">");
-            l.Add("<"+v1+","+v2+">");
+            l.Add("<"+u1+","+v1+">");
+            l.Add("<"+u2+","+v2+">");
             l.Add("precompute 10 x,y,z");
-            l.Add("   translate" + this.loc.render()[0]);
-            l.AddRange(this.texture.render());
+            l.Add("contained_by " + bounds);
+            l.Add("translate" + this.loc.render()[0]);
+            l.AddRange(this.tex.render());
             l.Add("}");
             return l;
         }
 
 
-        public void update(float time)
+        public void update(float currentTime)
         {
-            throw new NotImplementedException();
+            if (reactive)
+            {
+                this.loc.update(currentTime);
+                this.trans.update(currentTime);
+                this.rot.update(currentTime);
+                this.u1.now(currentTime);
+                this.u2.now(currentTime);
+                this.v1.now(currentTime);
+                this.v2.now(currentTime);
+            }
         }
     }
 }

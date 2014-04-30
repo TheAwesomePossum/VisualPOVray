@@ -16,9 +16,9 @@ namespace VisualPOVRAY
         }
 
 
-        public void update(float time)
+        public virtual void update(float time)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

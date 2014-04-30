@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="Fractal.cs" />
     <Compile Include="Frame.cs" />
+    <Compile Include="Functions.cs" />
     <Compile Include="Intersection.cs" />
     <Compile Include="JuliaFractal.cs" />
     <Compile Include="Lathe.cs" />
@@ -89,10 +90,12 @@
     <Compile Include="Prism.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReactEvent.cs" />
     <Compile Include="Signal.cs" />
     <Compile Include="Sor.cs" />
     <Compile Include="Sphere.cs" />
     <Compile Include="SuperEllipsoid.cs" />
+    <Compile Include="TimedEvent.cs" />
     <Compile Include="Torus.cs" />
     <Compile Include="Union.cs" />
     <Compile Include="WaveTexture.cs" />

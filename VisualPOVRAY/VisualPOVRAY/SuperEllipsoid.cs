@@ -8,25 +8,22 @@ namespace VisualPOVRAY
 {
     class SuperEllipsoid : PovObj
     {
-        public double e;
-        double n;
+        Signal<float> e,n;
         public Point3 loc;
-        PovTexture texture;
-
-        public SuperEllipsoid(double e, double n, Point3 loc)
+        PovTexture tex;
+        bool reactive;
+        public Point3 trans;
+        public Point3 rot;
+        public SuperEllipsoid(Point3 location = null,float e =3f, float n = 2f, Signal<float> re = null,Signal<float> rn = null,
+            Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
         {
-            this.e = e;
-            this.n = n;
-            this.loc = loc;
-            this.texture = new POVColor("Green");
-        }
-
-        public SuperEllipsoid(double e, double n, Point3 loc,PovTexture texture)
-        {
-            this.e = e;
-            this.n = n;
-            this.texture = texture;
-            this.loc = loc;
+            this.reactive = reactive;
+            this.loc = location ?? new Point3(0, 0, 0, reactive: reactive);
+            this.trans = translate ?? new Point3(0, 0, 0, reactive: reactive);
+            this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
+            this.e = re ?? new Lift0f(e);
+            this.n = rn ?? new Lift0f(n);
+            this.tex = texture ?? new POVColor("Red");
         }
 
         public void move(Point3 loc)
@@ -40,15 +37,23 @@ namespace VisualPOVRAY
             l.Add("superellipsoid {");
             l.Add("<" + this.e + ", " + this.n + ">");
             l.Add("   translate" + this.loc.render()[0]);
-            l.AddRange(this.texture.render());
+            l.AddRange(this.tex.render());
             l.Add("}");
             return l;
         }
 
 
-        public void update(float time)
+        public void update(float currentTime)
         {
-            throw new NotImplementedException();
+            if (reactive)
+            {
+                this.loc.update(currentTime);
+                this.trans.update(currentTime);
+                this.rot.update(currentTime);
+                this.e.now(currentTime);
+                this.n.now(currentTime);
+            }
+
         }
     }
 }

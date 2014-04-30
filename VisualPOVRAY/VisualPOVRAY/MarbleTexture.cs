@@ -8,17 +8,20 @@ namespace VisualPOVRAY
 {
     class MarbleTexture : PovTexture
     {
-        double scale, turbulence;
-        String color1, color2; 
+        Signal<float> scale, turbulence;
+        String color1, color2;
+        bool reactive;
 
-        public MarbleTexture(double scale, double turbulence, String color1, String color2)
+        public MarbleTexture(String color1, String color2, float turbulence = .7f, Signal<float> rturbulence = null, float scale = .7f, Signal<float> rscale = null, bool reactive = false)
         {
-            this.scale = scale;
-            this.turbulence = turbulence;
+            this.scale = rscale ?? new Lift0f(scale);
+            this.turbulence = rturbulence ?? new Lift0f(turbulence); 
             this.color1 = color1;
-            this.color2 = color2; 
+            this.color2 = color2;
+            this.reactive = reactive; 
 
         }
+
         public override List<string> render()
         {
             List<String> s = base.render();
@@ -28,6 +31,15 @@ namespace VisualPOVRAY
              }
        }} //---- end of pigment ------");
             return s;
+        }
+
+        public override void update(float time)
+        {
+            if (reactive)
+            {
+                this.scale.now(time);
+                this.turbulence.now(time);
+            }
         }
     }
 }

@@ -8,10 +8,13 @@ namespace VisualPOVRAY
 {
     class BlueSkyTexture : PovTexture
     {
-        double turbulence; 
-        public BlueSkyTexture(double turbulence)
+        Signal<float> turbulence;
+        bool reactive; 
+
+        public BlueSkyTexture(float turbulence = 1f, Signal<float> rturbulencee = null, bool reactive = false)
         {
-            this.turbulence = turbulence; 
+            this.turbulence = rturbulencee ?? new Lift0f(turbulence);
+            this.reactive = reactive; 
         }
         public override List<string> render()
         {
@@ -27,6 +30,14 @@ namespace VisualPOVRAY
                } // end of pigment
         finish { diffuse 0.9 phong 1}}");
             return s;
+        }
+
+        public void update(float time)
+        {
+            if (reactive)
+            {
+                this.turbulence.now(time);
+            }
         }
     }
 }

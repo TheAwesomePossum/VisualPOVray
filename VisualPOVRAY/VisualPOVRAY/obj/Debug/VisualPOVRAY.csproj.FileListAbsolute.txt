@@ -7,3 +7,12 @@ S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\bin\Debug\VisualPOVRAY.
 S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\bin\Debug\VisualPOVRAY.pdb
 S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.exe
 S:\Visual Studio 2012\Projects\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.pdb
+S:\Visual Studio 2012\Projects\VisualPOVray-master\VisualPOVRAY\VisualPOVRAY\bin\Debug\VisualPOVRAY.exe.config
+S:\Visual Studio 2012\Projects\VisualPOVray-master\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.exe
+S:\Visual Studio 2012\Projects\VisualPOVray-master\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.pdb
+S:\Visual Studio 2012\Projects\VisualPOVray-master\VisualPOVRAY\VisualPOVRAY\bin\Debug\VisualPOVRAY.exe
+S:\Visual Studio 2012\Projects\VisualPOVray-master\VisualPOVRAY\VisualPOVRAY\bin\Debug\VisualPOVRAY.pdb
+S:\Visual Studio 2012\Projects\VisualPOVray-master\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.csprojResolveAssemblyReference.cache
+S:\Visual Studio 2012\Projects\VisualPOVray-master\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.Form1.resources
+S:\Visual Studio 2012\Projects\VisualPOVray-master\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.Properties.Resources.resources
+S:\Visual Studio 2012\Projects\VisualPOVray-master\VisualPOVRAY\VisualPOVRAY\obj\Debug\VisualPOVRAY.csproj.GenerateResource.Cache

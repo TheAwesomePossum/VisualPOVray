@@ -8,16 +8,17 @@ namespace VisualPOVRAY
 {
     class WaveTexture : PovTexture
     {
-        double scale;
+        Signal <float> scale;
         String color1, color2;
+        bool reactive; 
 
-        public WaveTexture(double scale, String color1, String color2)
+        public WaveTexture(String color1, String color2, float scale = .1f, Signal<float> rscale = null, bool reactive = false)
         {
-            this.scale = scale;
+            this.scale = rscale ?? new Lift0f(scale); 
             this.color1 = color1;
-            this.color2 = color2; 
+            this.color2 = color2;
+            this.reactive = reactive; 
         }
-
 
         public override List<string> render(){
             List<String> s = base.render();
@@ -31,5 +32,12 @@ namespace VisualPOVRAY
             return s;
         }
 
+        public override void update(float time)
+        {
+            if (reactive)
+            {
+                this.scale.now(time);
+            }
+        }
     }
 }

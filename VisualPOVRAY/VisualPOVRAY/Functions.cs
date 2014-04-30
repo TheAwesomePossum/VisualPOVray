@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace VisualPOVRAY
 {
-    interface Event
+    public class Functions
     {
-        bool pop(float currentTime);
+        public delegate void EventFunc();
+        public delegate bool ReactFunc(float currentTime);
     }
 }

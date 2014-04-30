@@ -9,23 +9,23 @@ namespace VisualPOVRAY
     class Ovus : PovObj
     {
         public Point3 loc;
-        float topRadius, bottomRadius;
-        PovTexture texture;
+        Signal<float> topRadius, bottomRadius;
+        public Point3 trans;
+        public Point3 rot;
+        PovTexture tex;
+        bool reactive;
 
-        public Ovus(Point3 loc, float topRadius, float bottomRadius)
+        public Ovus(Point3 location = null, float topRadius = 1.0f, float bottomRadius = 2f, Signal<float> rt = null,
+            Signal<float> rb = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
         {
-            this.loc = loc;
-            this.topRadius = topRadius;
-            this.bottomRadius = bottomRadius;
-            this.texture = new POVColor("Red");
-        }
+            this.reactive = reactive;
+            this.loc = location ?? new Point3(0, 0, 0, reactive: reactive);
+            this.trans = translate ?? new Point3(0, 0, 0, reactive: reactive);
+            this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
+            this.tex = texture ?? new POVColor("Red");
+            this.topRadius = rt ?? new Lift0f(topRadius);
+            this.bottomRadius = rb ?? new Lift0f(bottomRadius);
 
-        public Ovus(Point3 loc, float topRadius, float bottomRadius, PovTexture texture)
-        {
-            this.loc = loc;
-            this.topRadius = topRadius;
-            this.bottomRadius = bottomRadius;
-            this.texture = texture;
         }
 
         public void move(Point3 loc)
@@ -39,15 +39,22 @@ namespace VisualPOVRAY
             l.Add("ovus {");
             l.Add(this.topRadius + ", " + this.bottomRadius);
             l.Add("translate " + this.loc.render()[0]);
-            l.AddRange(this.texture.render());
+            l.AddRange(this.tex.render());
             l.Add("}");
             return l;
         }
 
 
-        public void update(float time)
+        public void update(float currentTime)
         {
-            throw new NotImplementedException();
+            if (reactive)
+            {
+                this.loc.update(currentTime);
+                this.trans.update(currentTime);
+                this.rot.update(currentTime);
+                this.topRadius.now(currentTime);
+                this.bottomRadius.now(currentTime);
+            }
         }
     }
 }
