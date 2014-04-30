@@ -33,7 +33,9 @@ namespace VisualPOVRAY
             l.Add("light_source {");
             l.Add("    " + this.loc.render()[0] + " , rgb " + this.color.render()[0]);
             l.Add("    " + type);
+            if (fadeDist != 0)
             l.Add("    " + "fade_distance " + fadeDist);
+            if (fadePower != 0)
             l.Add("    " + "fade_power " + fadePower);
             if (shadows)
             {
@@ -55,6 +57,8 @@ namespace VisualPOVRAY
             {
                 l.Add("    " + "media_attenuation off");
             }
+            if (type.Equals("area_light"))
+                l.Add("    orient");
             l.Add("}");
             return l;
         }
@@ -66,43 +70,74 @@ namespace VisualPOVRAY
 
         private class AreaLight : Light
         {
-            public int width, height, widthLight, heightLight;
+            public int widthLight, heightLight;
+            Point3 vector1, vector2;
 
-            public AreaLight(Point3 loc, Point3 color, int width, int height, int widthLight, int heightLight, float fadeDist, float fadePower, Boolean shadows, Boolean interaction, Boolean atmosphere)
-                : base(loc, color, fadeDist, fadePower, shadows, interaction, atmosphere, type: "area_Light")
+            public AreaLight(Point3 loc, Point3 color, Point3 vector1, Point3 vector2, int widthLight, int heightLight, float fadeDist, float fadePower, Boolean shadows, Boolean interaction, Boolean atmosphere)
+                : base(loc, color, fadeDist, fadePower, shadows, interaction, atmosphere, type: "area_light")
             {
-                this.width = width;
-                this.height = height;
+                this.vector1 = vector1;
+                this.vector2 = vector2;
                 this.widthLight = widthLight;
                 this.heightLight = heightLight;
             }
             public override List<string> render()
             {
                 List<string> l = base.render();
-                l.Insert(3, "    " + width + "," + height + "," + widthLight + "," + heightLight);
+                l.Remove("    area_light");
+                l.Insert(2, "    area_light " + vector1.render()[0] + ", " + vector2.render()[0] + "," + widthLight + "," + heightLight);
+                
                 return l;
             }
-        }
+        }//AreaLight
 
-        public static Light pointLight(Point3 loc, Point3 color = null, float fadeDist = 1.0f, float fadePower = 1.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
+        private class SpotLight : Light
+        {
+            public float radius, falloff, tightness;
+            Point3 pointAt;
+
+            public SpotLight(Point3 loc, Point3 color, float radius, float falloff, float tightness, Point3 pointAt, float fadeDist, float fadePower, Boolean shadows, Boolean interaction, Boolean atmosphere)
+                : base(loc, color, fadeDist, fadePower, shadows, interaction, atmosphere, type: "spotlight")
+            {
+                this.radius = radius;
+                this.falloff = falloff;
+                this.tightness = tightness;
+                this.pointAt = pointAt;
+            }
+            public override List<string> render()
+            {
+                List<string> l = base.render();
+                if (tightness != 0f)
+                    l.Insert(3, "    " + "tightness " + tightness);
+                if (falloff != 0f)
+                    l.Insert(3, "    " + "falloff " + falloff);
+                if (radius != 0f)
+                    l.Insert(3, "    " + "radius " + radius);
+                if (pointAt != null)
+                    l.Add("    " + "pointAt " + this.pointAt.render()[0]);
+                return l;
+            }
+        }//SpotLight
+
+        public static Light pointLight(Point3 loc, Point3 color = null, float fadeDist = 0.0f, float fadePower = 0.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
         {
             return new Light(loc, color, fadeDist, fadePower, shadows, interaction, atmosphere, "");
         }
-        public static Light parallelLight(Point3 loc, Point3 color = null, float fadeDist = 1.0f, float fadePower = 1.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
+        public static Light parallelLight(Point3 loc, Point3 color = null, float fadeDist = 0.0f, float fadePower = 0.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
         {
             return new Light(loc, color, fadeDist, fadePower, shadows, interaction, atmosphere, "parallel");
         }
-        public static Light spotLight(Point3 loc, Point3 color = null, float fadeDist = 1.0f, float fadePower = 1.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
+        public static Light spotLight(Point3 loc, float radius = 0f, float falloff = 0f, float tightness = 0f, Point3 pointAt = null, Point3 color = null, float fadeDist = 0.0f, float fadePower = 0.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
         {
-            return new Light(loc, color, fadeDist, fadePower, shadows, interaction, atmosphere, "spotlight");
+            return new SpotLight(loc, color, radius, falloff, tightness, pointAt, fadeDist, fadePower, shadows, interaction, atmosphere);
         }
-        public static Light cylindricalLight(Point3 loc, Point3 color = null, float fadeDist = 1.0f, float fadePower = 1.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
+        public static Light cylindricalLight(Point3 loc, Point3 color = null, float fadeDist = 0.0f, float fadePower = 0.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
         {
             return new Light(loc, color, fadeDist, fadePower, shadows, interaction, atmosphere, "cylinder");
         }
-        public static Light areaLight(Point3 loc, int width, int height, int widthLight, int heightLight, Point3 color = null, float fadeDist = 1.0f, float fadePower = 1.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
+        public static Light areaLight(Point3 loc, Point3 vector1, Point3 vector2, int widthLight, int heightLight, Point3 color = null, float fadeDist = 0.0f, float fadePower = 0.0f, Boolean shadows = true, Boolean interaction = true, Boolean atmosphere = false)
         {
-            return new AreaLight(loc, color, width, height, widthLight, heightLight, fadeDist, fadePower, shadows, interaction, atmosphere);
+            return new AreaLight(loc, color, vector1, vector2, widthLight, heightLight, fadeDist, fadePower, shadows, interaction, atmosphere);
         }
 
         public void update(float time)
