@@ -52,7 +52,7 @@ namespace VisualPOVRAY
         }
 
 
-        public void update(int currentTime)
+        public void update(float currentTime)
         {
             this.loc.update(currentTime);
             this.rot.update(currentTime);

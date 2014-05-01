@@ -63,7 +63,7 @@ namespace VisualPOVRAY
         }
 
 
-        public void update(int currentTime)
+        public void update(float currentTime)
         {
             if (reactive)
             {
