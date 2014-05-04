@@ -60,5 +60,22 @@ namespace VisualPOVRAY
                 z = zs.now(currentTime);
             }
         }
+        
+        public Point3 crossproduct(Point3 vec) //vector perpendicular to given vectors
+        {
+            if (this != null && vec != null)
+            {
+                Point3 results = new Point3(0, 0, 0);
+                results.x = this.y * vec.z - this.z * vec.y;
+                results.y = this.z * vec.x - this.x * vec.z;
+                results.z = this.x * vec.y - this.y * vec.x;
+                return results;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        
     }
 }
