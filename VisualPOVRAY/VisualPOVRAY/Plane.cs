@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,20 +8,34 @@ namespace VisualPOVRAY
 {
     class Plane : PovObj
     {
-        public Point3 n;
-        public Signal<float> d;
-        public Point3 trans;
-        public Point3 rot;
-        public PovTexture tex;
+        public Point3 normal;
+        public Signal<float> disp;
+        public Point3 translate;
+        public Point3 rotation;
+        public PovTexture texture;
         bool reactive;
+        String finish;
 
-        public Plane(Point3 normal = null, float disp = -1.0f, Signal<float> dispr = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
+        public Plane(Point3 normal = null, float disp = -1.0f, Signal<float> dispr = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, String finish = null, bool reactive = false)
         {
-            this.n = normal ?? new Point3(0, 1, 0, reactive: reactive);
-            this.d = dispr ?? new Lift0f(disp);
-            this.trans = translate ?? new Point3(0, 0, 0, reactive: reactive);
-            this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
-            this.tex = texture ?? new POVColor("Red");
+            this.normal = normal ?? new Point3(0, 1, 0, reactive: reactive);
+            this.disp = dispr ?? new Lift0f(disp);
+            this.translate = translate ?? new Point3(0, 0, 0, reactive: reactive);
+            this.rotation = rotation ?? new Point3(0, 0, 0, reactive: reactive);
+            this.texture = texture ?? new POVColor("Red");
+            this.finish = finish ?? "finish {phong .9 reflection .5}";
+            this.reactive = reactive;
+        }
+
+        public Plane(Point3 vectorx = null, Point3 vectory = null, float disp = -1.0f, Signal<float> dispr = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
+        {
+            Point3 n = vectorx.crossproduct(vectory);
+            this.normal = n ?? new Point3(0, 1, 0, reactive: reactive);
+            this.normal.reactive = reactive;
+            this.disp = dispr ?? new Lift0f(disp);
+            this.translate = translate ?? new Point3(0, 0, 0, reactive: reactive);
+            this.rotation = rotation ?? new Point3(0, 0, 0, reactive: reactive);
+            this.texture = texture ?? new POVColor("Red");
             this.reactive = reactive;
         }
 
@@ -29,27 +43,28 @@ namespace VisualPOVRAY
         {
             List<string> l = new List<string>();
             l.Add("plane {");
-            l.Add("    " + this.n.render()[0] + ", " + d);
-            l.AddRange(this.tex.render());
-            l.Add("    rotate " + this.rot.render()[0]);
-            l.Add("    translate " + this.trans.render()[0]);
+            l.Add("    " + this.normal.render()[0] + ", " + disp);
+            l.AddRange(this.texture.render());
+            l.Add("    rotate " + this.rotation.render()[0]);
+            l.Add("    translate " + this.translate.render()[0]);
+            l.Add(finish);
             l.Add("}");
             return l;
         }
 
         public void move(Point3 transform)
         {
-            this.trans = transform;
+            this.translate = transform;
         }
 
         public void update(float time)
         {
             if (reactive)
             {
-                this.d.now(time);
-                this.n.update(time);
-                this.trans.update(time);
-                this.rot.update(time);
+                this.disp.now(time);
+                this.normal.update(time);
+                this.translate.update(time);
+                this.rotation.update(time);
             }
         }
     }
