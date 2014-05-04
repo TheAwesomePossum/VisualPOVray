@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,48 +8,51 @@ namespace VisualPOVRAY
 {
     class Box : PovObj
     {
-        public Point3 lowleft;
-        public Point3 upright;
-        public Point3 trans;
-        public Point3 rot;
-        public PovTexture tex;
+        public Point3 lowerleftcorner;
+        public Point3 upperrightcorner;
+        public Point3 translate;
+        public Point3 rotation;
+        public PovTexture texture;
         public bool reactive;
+        String finish;
 
-        public Box(Point3 lowerleftcorner = null, Point3 upperrightcorner = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
+        public Box(Point3 lowerleftcorner = null, Point3 upperrightcorner = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, String finish = null, bool reactive = false)
         {
             this.reactive = reactive;
-            this.lowleft = lowerleftcorner ?? new Point3(0, 0, 0, reactive: reactive);
-            this.upright = upperrightcorner ?? new Point3(0, 0, 0, reactive: reactive);
-            this.trans = translate ?? new Point3(0, 0, 0, reactive: reactive);
-            this.rot = rotation ?? new Point3(0, 0, 0, reactive: reactive);
-            this.tex = texture ?? new POVColor("Red");
+            this.lowerleftcorner = lowerleftcorner ?? new Point3(0, 0, 0, reactive: reactive);
+            this.upperrightcorner = upperrightcorner ?? new Point3(0, 0, 0, reactive: reactive);
+            this.translate = translate ?? new Point3(0, 0, 0, reactive: reactive);
+            this.rotation = rotation ?? new Point3(0, 0, 0, reactive: reactive);
+            this.finish = finish ?? "finish {phong .9 reflection .5}";
+            this.texture = texture ?? new POVColor("Red");
         }
 
         public List<string> render()
         {
             List<string> l = new List<string>();
             l.Add("box {");
-            l.Add("    " + this.lowleft.render()[0] + ", " + this.upright.render()[0]);
-            l.AddRange(this.tex.render());
-            l.Add("    rotate " + this.rot.render()[0]);
-            l.Add("    translate " + this.trans.render()[0]);
+            l.Add("    " + this.lowerleftcorner.render()[0] + ", " + this.upperrightcorner.render()[0]);
+            l.AddRange(this.texture.render());
+            l.Add("    rotate " + this.rotation.render()[0]);
+            l.Add("    translate " + this.translate.render()[0]);
+            l.Add(finish);
             l.Add("}");
             return l;
         }
 
         public void move(Point3 transform)
         {
-            this.trans = transform;
+            this.translate = transform;
         }
 
         public void update(float time)
         {
             if (reactive)
             {
-                this.lowleft.update(time);
-                this.trans.update(time);
-                this.rot.update(time);
-                this.upright.update(time);
+                this.lowerleftcorner.update(time);
+                this.translate.update(time);
+                this.rotation.update(time);
+                this.upperrightcorner.update(time);
             }
         }
     }
