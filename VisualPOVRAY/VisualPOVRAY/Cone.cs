@@ -50,8 +50,6 @@ namespace VisualPOVRAY
             this.translate = transform;
         }
 
-
-
         public void update(float time)
         {
             if (reactive)
