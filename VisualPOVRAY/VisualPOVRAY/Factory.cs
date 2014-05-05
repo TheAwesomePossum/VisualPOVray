@@ -71,19 +71,19 @@ namespace VisualPOVRAY
         }
 
         //Simple Reactive Objects
-        public static Sphere sphere(Point3 location = null, float radius = 1.0f, Signal<float> rrad = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
+        public static Sphere sphere(Point3 location = null, float radius = 1.0f, Signal<float> rrad = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, string finish = null, bool reactive = false)
         {
-            return new Sphere(location, radius, rrad, translate, rotation, texture, reactive);
+            return new Sphere(location, radius, rrad, translate, rotation, texture, finish, reactive);
         }
 
-        public static Box box(Point3 lowerleftcorner = null, Point3 upperrightcorner = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, bool reactive = false)
+        public static Box box(Point3 lowerleftcorner = null, Point3 upperrightcorner = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, string finish = null,string finish = null, bool reactive = false)
         {
-            return new Box(lowerleftcorner, upperrightcorner, translate, rotation, texture, reactive);
+            return new Box(lowerleftcorner, upperrightcorner, translate, rotation, texture, finish, reactive);
         }
 
-        public static Cone cone(Point3 bottompoint = null, float bottomradius = 1.0f, Point3 toppoint = null, float topradius = 0.0f, Point3 translate = null, Point3 rotation = null, PovTexture texture = null)
+        public static Cone cone(Point3 bottompoint = null, float bottomradius = 1.0f, Point3 toppoint = null, float topradius = 0.0f, Point3 translate = null, Point3 rotation = null,string finish = null, PovTexture texture = null)
         {
-            return new Cone(bottompoint, bottomradius, toppoint, topradius, translate, rotation, texture);
+            return new Cone(bottompoint, bottomradius, toppoint, topradius, translate, rotation, finish, texture);
         }
 
         public static Prism prism(String spline_type, float height1, float height2, int numPoints, Point2[] p, Point3 loc = null,
