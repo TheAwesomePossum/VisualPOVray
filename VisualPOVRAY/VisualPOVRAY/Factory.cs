@@ -69,7 +69,22 @@ namespace VisualPOVRAY
         {
             return currentValue + value.now(currentTime) * currentTime;
         }
-
+        public static Liftf sin(Signal<float> value, float initValue = 0f)
+        {
+            return new Liftf(value, sin, initValue);
+        }
+        public static float sin(float currentTime, float currentValue, Signal<float> value)
+        {
+            return (float)value.now(currentTime) * (float) Math.Sin(currentTime);
+        }
+        public static Liftf cos(Signal<float> value, float initValue = 0f)
+        {
+            return new Liftf(value, cos, initValue);
+        }
+        public static float cos(float currentTime, float currentValue, Signal<float> value)
+        {
+            return (float) value.now(currentTime) * (float) Math.Cos(currentTime);
+        }
         //Simple Reactive Objects
         public static Sphere sphere(Point3 location = null, float radius = 1.0f, Signal<float> rrad = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, string finish = null, bool reactive = false)
         {
@@ -143,7 +158,10 @@ namespace VisualPOVRAY
         {
             return new TimedEvent(time, func);
         }
-
+        public static Event everntfunc(fn.ReactFunc rf, fn.EventFunc func)
+        {
+            return new ReactEvent(rf, func);
+        }
         //Textures
         public static LeopardTexture leopardTexture(String color1, String color2, String color3, float scale = .3f, Signal<float> rscale = null, float turbulence = .5f, Signal<float> rturbulence = null, bool reactive = false)
         {
