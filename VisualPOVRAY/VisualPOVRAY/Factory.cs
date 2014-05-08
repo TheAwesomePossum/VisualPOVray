@@ -15,7 +15,7 @@ namespace VisualPOVRAY
             return new Point2(xs, ys);
         }
 
-        public static Point2 p2(float x, float y, bool reactive = false)
+        public static Point2 p2(float x, float y, bool reactive = true)
         {
             return new Point2(x, y, reactive: reactive);
         }
@@ -25,7 +25,7 @@ namespace VisualPOVRAY
             return new Point3(xs, ys, zs);
         }
 
-        public static Point3 p3(float x, float y, float z, bool reactive = false)
+        public static Point3 p3(float x, float y, float z, bool reactive = true)
         {
             return new Point3(x, y, z, reactive: reactive);
         }
@@ -86,17 +86,17 @@ namespace VisualPOVRAY
             return (float) value.now(currentTime) * (float) Math.Cos(currentTime);
         }
         //Simple Reactive Objects
-        public static Sphere sphere(Point3 location = null, float radius = 1.0f, Signal<float> rrad = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, string finish = null, bool reactive = false)
+        public static Sphere sphere(Point3 location = null, float radius = 1.0f, Signal<float> rrad = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, string finish = null, bool reactive = true)
         {
             return new Sphere(location, radius, rrad, translate, rotation, texture, finish, reactive);
         }
 
-        public static Box box(Point3 lowerleftcorner = null, Point3 upperrightcorner = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, string finish = null, bool reactive = false)
+        public static Box box(Point3 lowerleftcorner = null, Point3 upperrightcorner = null, Point3 translate = null, Point3 rotation = null, PovTexture texture = null, string finish = null, bool reactive = true)
         {
             return new Box(lowerleftcorner, upperrightcorner, translate, rotation, texture, finish, reactive);
         }
 
-        public static Cone cone(Point3 bottompoint = null, float bottomradius = 1.0f, Signal<float> bottomradiusr = null, Point3 toppoint = null, float topradius = 0.0f,Signal<float> topradiusr = null, Point3 translate = null, Point3 rotation = null, string finish = null, PovTexture texture = null, bool reactive = false)
+        public static Cone cone(Point3 bottompoint = null, float bottomradius = 1.0f, Signal<float> bottomradiusr = null, Point3 toppoint = null, float topradius = 0.0f,Signal<float> topradiusr = null, Point3 translate = null, Point3 rotation = null, string finish = null, PovTexture texture = null, bool reactive =true)
         {
             return new Cone(bottompoint, bottomradius, bottomradiusr, toppoint, topradius, topradiusr, translate, rotation, texture, finish, reactive);
         }
@@ -113,42 +113,42 @@ namespace VisualPOVRAY
             return new Blob(threshold, rotate, translate, blob, reactive, rthresh);
         }
 
-        public static Merge merge(PovObj o1, PovObj o2, bool reactive = false)
+        public static Merge merge(PovObj o1, PovObj o2, bool reactive = true)
         {
             return new Merge(o1, o2, reactive);
         }
 
-        public static Merge merge(PovObj o1, PovObj[] o2, bool reactive = false)
+        public static Merge merge(PovObj o1, PovObj[] o2, bool reactive = true)
         {
             return new Merge(o1, o2, reactive);
         }
 
-        public static Union union(PovObj o1, PovObj o2, bool reactive = false)
+        public static Union union(PovObj o1, PovObj o2, bool reactive = true)
         {
             return new Union(o1, o2, reactive);
         }
 
-        public static Union union(PovObj o1, PovObj[] o2, bool reactive = false)
+        public static Union union(PovObj o1, PovObj[] o2, bool reactive = true)
         {
             return new Union(o1, o2, reactive);
         }
 
-        public static Difference diff(PovObj o1, PovObj o2, bool reactive = false)
+        public static Difference diff(PovObj o1, PovObj o2, bool reactive = true)
         {
             return new Difference(o1, o2, reactive);
         }
 
-        public static Difference diff(PovObj o1, PovObj[] o2, bool reactive = false)
+        public static Difference diff(PovObj o1, PovObj[] o2, bool reactive = true)
         {
             return new Difference(o1, o2, reactive);
         }
 
-        public static Intersection Intersect(PovObj o1, PovObj o2, bool reactive = false)
+        public static Intersection Intersect(PovObj o1, PovObj o2, bool reactive = true)
         {
             return new Intersection(o1, o2, reactive);
         }
 
-        public static Intersection Intersect(PovObj o1, PovObj[] o2, bool reactive = false)
+        public static Intersection Intersect(PovObj o1, PovObj[] o2, bool reactive = true)
         {
             return new Intersection(o1, o2, reactive);
         }
@@ -163,22 +163,22 @@ namespace VisualPOVRAY
             return new ReactEvent(rf, func);
         }
         //Textures
-        public static LeopardTexture leopardTexture(String color1, String color2, String color3, float scale = .3f, Signal<float> rscale = null, float turbulence = .5f, Signal<float> rturbulence = null, bool reactive = false)
+        public static LeopardTexture leopardTexture(String color1, String color2, String color3, float scale = .3f, Signal<float> rscale = null, float turbulence = .5f, Signal<float> rturbulence = null, bool reactive = true)
         {
             return new LeopardTexture(color1, color2, color3, scale, rscale, turbulence, rturbulence, reactive);
         }
 
-        public static BlueSkyTexture blueSkyTexture(float turbulence = 1f, Signal<float> rturbulencee = null, bool reactive = false)
+        public static BlueSkyTexture blueSkyTexture(float turbulence = 1f, Signal<float> rturbulencee = null, bool reactive = true)
         {
             return new BlueSkyTexture(turbulence, rturbulencee, reactive);
         }
 
-        public static MarbleTexture marbleTexture(String color1, String color2, float turbulence = 100f, Signal<float> rturbulence = null, float scale = 100f, Signal<float> rscale = null, Boolean reactive = false)
-        {
+        public static MarbleTexture marbleTexture(String color1, String color2, float turbulence = 100f, Signal<float> rturbulence = null, float scale = 100f, Signal<float> rscale = null, Boolean reactive = true)
+        {e
             return new MarbleTexture(color1, color2, turbulence, rturbulence, scale, rscale, reactive);
         }
 
-        public static WaveTexture waveTexture(String color1, String color2, float scale = .1f, Signal<float> rscale = null, bool reactive = false)
+        public static WaveTexture waveTexture(String color1, String color2, float scale = .1f, Signal<float> rscale = null, bool reactive = true)
         {
             return new WaveTexture(color1, color2, scale, rscale, reactive);
         }
