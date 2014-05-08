@@ -174,7 +174,7 @@ namespace VisualPOVRAY
         }
 
         public static MarbleTexture marbleTexture(String color1, String color2, float turbulence = 100f, Signal<float> rturbulence = null, float scale = 100f, Signal<float> rscale = null, Boolean reactive = true)
-        {e
+        {
             return new MarbleTexture(color1, color2, turbulence, rturbulence, scale, rscale, reactive);
         }
 
